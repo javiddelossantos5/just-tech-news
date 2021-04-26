@@ -1,3 +1,4 @@
+const withAuth = require('../../utils/auth');
 const router = require('express').Router();
 const { Comment } = require('../../models');
 
@@ -10,7 +11,7 @@ router.get('/', (req, res) => {
     });
 });
 
-router.post('/', (req, res) => {
+router.post('/', withAuth, (req, res) => {
   // expects => {comment_text: "This is the comment", user_id: 1, post_id: 2}
   if (req.session) {
     Comment.create({
@@ -26,7 +27,7 @@ router.post('/', (req, res) => {
   }
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', withAuth, (req, res) => {
   if (req.session) {
     Comment.destroy({
       where: {
